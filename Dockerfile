@@ -1,5 +1,6 @@
-# FROM ubuntu:16.04
-FROM python:3.7-slim
+
+FROM ubuntu:16.04
+# FROM python:3.7-slim
 
 RUN  apt-get update \
   && apt-get install -y wget unzip xvfb libxtst6 libxrender1 libxi6 socat \
@@ -11,26 +12,6 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8 
 ENV LC_ALL en_US.UTF-8
-
-RUN pip3 install --upgrade pip
-RUN pip3 install ibapi \
-  flask \
-  flask_login \
-  bootstrap-flask \
-  coloredlogs \
-  ib_insync \
-  yahoo_earnings_calendar \
-  pymongo
-
-# Install Java 8
-#RUN \
-#  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  #add-apt-repository -y ppa:webupd8team/java && \
-  #apt-get update && \
-  #apt-get install -y oracle-java8-installer && \
-  #rm -rf /var/lib/apt/lists/* && \
-  #rm -rf /var/cache/oracle-jdk8-installer
-
 
 # Setup IB TWS
 RUN mkdir -p /opt/TWS
@@ -54,26 +35,12 @@ RUN wget -q https://github.com/IbcAlpha/IBC/releases/download/3.8.1/IBCLinux-3.8
 RUN unzip ./IBCLinux-3.8.1.zip
 RUN chmod -R u+x *.sh && chmod -R u+x scripts/*.sh
 
-#CMD yes
-
 # Launch a virtual screen
 #RUN Xvfb :1 -screen 0 1024x768x24 2>&1 >/dev/null &
 #RUN export DISPLAY=:1
 
-# RUN apt-get install -y python3 python3-pip
-RUN mkdir -p /app/autopt
-WORKDIR /app/autopt
-
-RUN pip3 install \
-  flask_assets \
-  flask_wtf \
-  pandas
-
-ADD IBJts/ ./IBJts
-ADD autopt/ ./autopt
-ADD wsgi.py .
-ADD start.sh .
-ADD tests/ ./tests
+ADD externals/ib-docker/IBController.ini /root/IBC/config.ini
+ADD externals/ib-docker/jts.ini /root/Jts/jts.ini
 
 WORKDIR /
 

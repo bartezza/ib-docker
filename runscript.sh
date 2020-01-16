@@ -1,6 +1,25 @@
 #!/bin/bash
 
-killall Xvfb
+export TWS_MAJOR_VRSN=${TWS_MAJOR_VRSN:-974}
+export TRADING_MODE=${TRADING_MODE:-paper}
+
+export TWSUSERID=${TWSUSERID:-ainpap123}
+export TWSPASSWORD=${TWSPASSWORD:-carta123}
+export VNCPASSWORD=${VNCPASSWORD:-vncpasswordvnc1}
+
+export FIXUSERID=
+export FIXPASSWORD=
+
+export TZ=${TZ:-Europe/Rome}
+
+export IBC_INI=/root/IBC/config.ini
+export IBC_PATH=/opt/IBC
+export TWS_PATH=/root/Jts
+export TWS_CONFIG_PATH=/root/Jts
+export LOG_PATH=/opt/IBC/Logs
+export JAVA_PATH=
+export APP=GATEWAY
+
 rm /tmp/.X1-lock
 
 Xvfb :1 -screen 0 1024x768x24 2>&1 >/dev/null &
