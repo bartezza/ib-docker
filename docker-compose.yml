@@ -1,32 +1,46 @@
-tws:
-  #image: ryankennedyio/ib-docker
-  image: bart-ib-docker
-  ports:
-    - "4001:4001"
-    - "4002:4002"
-    - "4003:4003"
-    - "4004:4004"
-    - "5900:5900"
+version: '3.1'
 
-  # TODO: fix listening only to tcp6
+services:
+  tws:
+    #image: ryankennedyio/ib-docker
+    image: bart-ib-docker
+    ports:
+      - "127.0.0.1:4003:4003"
+      - "127.0.0.1:4004:4004"
+      - "127.0.0.1:5900:5900"
 
-  volumes:
-    - ./IBController.ini:/root/IBC/config.ini
-    - ./jts.ini:/root/Jts/jts.ini
-  environment:
-    - TZ=Europe/Rome
-    # Variables pulled from /IBController/IBControllerGatewayStart.sh
-    - VNC_PASSWORD=password
-    - TWS_MAJOR_VRSN=974
-    - IBC_INI=/root/IBC/config.ini
-    - TRADING_MODE=paper
-    - IBC_PATH=/opt/IBC
-    - TWS_PATH=/root/Jts
-    - TWS_CONFIG_PATH=/root/Jts
-    - LOG_PATH=/opt/IBC/Logs
-    - TWSUSERID=ainpap123
-    - TWSPASSWORD=carta123
-    - FIXUSERID=
-    - FIXPASSWORD=
-    - JAVA_PATH=
-    - APP=GATEWAY
+    volumes:
+      - ./IBController.ini:/root/IBC/config.ini
+      - ./jts.ini:/root/Jts/jts.ini
+
+    environment:
+      - TZ=Europe/Rome
+      # Variables pulled from /IBController/IBControllerGatewayStart.sh
+      #- VNC_PASSWORD=password
+      - TWS_MAJOR_VRSN=974
+      - IBC_INI=/root/IBC/config.ini
+      - TRADING_MODE
+      - IBC_PATH=/opt/IBC
+      - TWS_PATH=/root/Jts
+      - TWS_CONFIG_PATH=/root/Jts
+      - LOG_PATH=/opt/IBC/Logs
+      - TWSUSERID
+      - TWSPASSWORD
+      - VNCPASSWORD
+      #- TWSUSERID=ainpap123
+      #- TWSPASSWORD=carta123
+      - FIXUSERID=
+      - FIXPASSWORD=
+      - JAVA_PATH=
+      - APP=GATEWAY
+
+    #secrets:
+    #  - ib_password
+    #  - vnc_password
+
+#secrets:
+#  ib_password:
+#    external: true
+
+#  vnc_password:
+#    external: true
